@@ -25,7 +25,7 @@ const Modal = ({ closeModal, handleContinue}) => {
                   type="text"
                   value={inputValue}
                   onChange={handleInputChange}
-                  placeholder="Entrez quelque chose"
+                  placeholder="Paris 08"
               />
               <div className="modal-buttons">
               <button className="modifier-button" onClick={handleModifierClick}>Modifier</button>
