@@ -28,12 +28,12 @@ function App() {
         </div>
       </main>
       <footer>
-        <div className="footer-links">
-          <a href="#">POLITIQUE DE CONFIDENTIALITÉ</a>
-          <a href="#">CONDITIONS GÉNÉRALES D'UTILISATION</a>
-          <a href="#">RÉGLEMENTATION - LOI AGEC</a>
-          <a href="#">COOKIE</a>
-          <a href="#">DROITS D'AUTEUR</a>
+        <div class="footer-links">
+          <a href="#">POLITIQUE DE CONFIDENTIALITÉ</a><br></br>
+          <a href="#">CONDITIONS GÉNÉRALES D'UTILISATION</a><br></br>
+          <a href="#">RÉGLEMENTATION - LOI AGEC</a><br></br>
+          <a href="#">COOKIE</a><br></br>
+          <a href="#">DROITS D'AUTEUR</a><br></br>
         </div>
       </footer>
     </div>
