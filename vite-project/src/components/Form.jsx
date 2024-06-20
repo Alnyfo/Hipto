@@ -120,7 +120,7 @@ const Form = () => {
         <div className="form-group">
           <label>Pour quel type de véhicule ?</label>
           <button type="button" onClick={() => contact('neuf')}>NEUF</button>
-          <button type="button" onClick={() => achats('occasion')}>OCCASION</button>
+          <button type="button" onClick={() => contact('occasion')}>OCCASION</button>
         </div>
       )}
 
