@@ -6,6 +6,7 @@ const Form = () => {
   const [showForm, setShowForm] = useState(false);
   const [showAchatForm, setShowAchatForm] = useState(false);
   const [showLeasingForm, setShowLeasingForm] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   const handleShowForm = (modelName) => {
     setModel(modelName);
@@ -26,9 +27,17 @@ const Form = () => {
     setShowForm(false);
   };
 
+  const contact = (modelName) => {
+    setModel(modelName);
+    setShowAchatForm(false);
+    setShowLeasingForm(false); 
+    setShowForm(false);
+    setShowContact(true);
+  };
+
   return (
     <div>
-      {!showForm && !showAchatForm && !showLeasingForm && (
+      {!showForm && !showAchatForm && !showLeasingForm && !showContact && (
         <div className="form-group">
           <label>Quel est le type de modèle que vous souhaitez tester ?</label>
           <button type="button" onClick={() => handleShowForm('compact')}>COMPACTE</button>
@@ -49,7 +58,7 @@ const Form = () => {
       {showAchatForm && (
           <div className="form-group">
             <label>Pour quel type de véhicule ?</label>
-            <button type="button" onClick={() => achats('neuf')}>NEUF</button>
+            <button type="button" onClick={() => contact('neuf')}>NEUF</button>
             <button type="button" onClick={() => achats('occasion')}>OCCASION</button>
           </div>
       )}
@@ -57,12 +66,38 @@ const Form = () => {
       {showLeasingForm && (
           <div className="form-group">
             <label>Pour quelle durée ?</label>
-            <button type="button" onClick={() => leasing('6')}>6 MOIS</button>
-            <button type="button" onClick={() => leasing('12')}>12 MOIS</button>
-            <button type="button" onClick={() => leasing('18')}>18 MOIS</button>
-            <button type="button" onClick={() => leasing('24')}>24 MOIS</button>
+            <button type="button" onClick={() => contact('6')}>6 MOIS</button>
+            <button type="button" onClick={() => contact('12')}>12 MOIS</button>
+            <button type="button" onClick={() => contact('18')}>18 MOIS</button>
+            <button type="button" onClick={() => contact('24')}>24 MOIS</button>
           </div>
       )}
+
+      {showContact && (
+              <div class="form-group">
+                <div class="name-fields">
+                <label class="Prenom">
+                    PRENOM
+                    <input name="prenomInput" defaultValue="Ecrire" class="styled-inputPrenom" />
+                  </label>
+                  <label class="Nom">
+                    NOM
+                    <input name="nomInput" defaultValue="Ecrire" class="styled-inputNom" />
+                  </label>
+                  <label class="Code">
+                    CODE POSTAL
+                    <input name="codeInput" defaultValue="1234" class="styled-inputcode" />
+                  </label>
+                  <label class="tel">
+                    TELEPHONE
+                    <input name="telInput" defaultValue="0X XX XX XX XX" class="styled-inputtel" />
+                  </label>
+                </div>
+                <button class="continue" type="button" onClick={() => contact('continuer')}>CONTINUER</button>
+            </div>            
+          )}
+
+
     </div>
   );
 };

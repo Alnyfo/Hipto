@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Form from './components/Form.jsx';
-import logo from './image/logo.png'; // Importez votre logo
+import logo from './image/logo.png'; 
 
 function App() {
   return (
