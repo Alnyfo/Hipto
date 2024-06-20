@@ -85,3 +85,108 @@
     text-align: center; 
     border-radius: 20px;
   }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    z-index: 1000; 
+}
+
+.modal-content {
+    background-color: #211f24; 
+    padding: 20px;
+    border-radius: 30px;
+    width: 80%;
+    max-width: 600px; 
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); 
+}
+
+.modal-content p {
+    margin-bottom: 15px; 
+}
+
+.modal-content input {
+  width: 90%;
+  padding: 14px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  border: none;
+  background-color: #15191d;
+  color: white;
+  font-size: 18px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 20px;
+  padding-left: 1cm;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around; 
+}
+
+.modifier-button {
+    padding: 10px 20px;
+    border: none;
+    font-size: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.modifier-button:hover {
+    background-color: #fafafa; 
+}
+
+.continuer-button {
+    padding: 10px 20px;
+    border: none;
+    font-size: 20px;
+    background-color: #ff0000; 
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.continuer-button:hover {
+  background-color: #f71900; 
+}
+
+.form-group {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.confirmation-group {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.confirmation-text {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.confirmation-text2 {
+  margin-bottom: 60px;
+  font-size: 20px;
+}
+
+.confirmation-thanks {
+  text-align: right;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.underline {
+  text-decoration: underline;
+}
