@@ -87,15 +87,69 @@ const Form = () => {
     setShowContact(true);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     setShowAchatForm(false);
-    setShowLeasingForm(false); 
+    setShowLeasingForm(false);
     setShowForm(false);
     setShowModal(false);
     setShowContact(false);
-    setShowConfirmation(true); 
+    setShowConfirmation(true);
+    try {
+      const ville = await fetchCityName(codePostal);
+
+      const leadData = {
+        type_modele: model,
+        nom: nom,
+        prenom: prenom,
+        ville: ville,
+        telephone: telephone
+      };
+
+      await sendLeadData(leadData);
+
+      setShowModal(false);
+      setShowConfirmation(true);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
   
+  const fetchCityName = async (codePostal) => {
+    try {
+      const response = await fetch(`https://geo.api.gouv.fr/communes?codePostal=${codePostal}`);
+      if (!response.ok) {
+        throw new Error('La requête n\'a pu aboutir');
+      }
+      const data = await response.json();
+      if (data.length > 0) {
+        return data[0].nom;
+      } else {
+        throw new Error('Aucune ville n\'a été trouvée pour ce code postal');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération du nom de la ville :', error);
+      throw error;
+    }
+  };
+
+  const sendLeadData = async (leadData) => {
+    try {
+      const response = await fetch('https://hooks.zapier.com/hooks/catch/6844401/3sjq5ou/?em=test@hipto.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: leadData }),
+      });
+      if (!response.ok) {
+        throw new Error('Error');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
+
   return (
     <div>
       {!showForm && !showAchatForm && !showLeasingForm && !showContact && !showConfirmation &&(
