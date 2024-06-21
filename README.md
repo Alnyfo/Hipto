@@ -75,7 +75,7 @@ L'application est conçue pour fonctionner efficacement sur les plateformes de b
 ## En cours :
 ### Requêtes API :
 - Configuration d'une requete pour obtenir le nom d'une ville à partir d'un code postal en utilisant l'API de découpage administratif du gouvernement français.
-- Configuration d'une requete pour permettre d'envoyer les informations du prospect (lead). Il n'y a pas de documentatino pour cette requete. 
+- Configuration d'une requete pour permettre d'envoyer les informations du prospect (lead). Il n'y a pas de documentation pour cette requete. 
 - Utilisation de fetch pour envoyer les informations prospect à une API distante.
 - Utilisation de await pour gérer les appels asynchrones.
 - Implémentation partielle des requêtes API avec des problèmes en cours.
