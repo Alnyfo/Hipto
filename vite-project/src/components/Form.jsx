@@ -1,92 +1,102 @@
 import React, { useState } from 'react';
 import './Form.css';
 
-const Modal = ({ closeModal, handleContinue}) => {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleInputChange = (e) => {
-      setInputValue(e.target.value);
-  };
-
-  const handleModifierClick = () => {
-      closeModal();
-  };
-
-  const handleContinueClick = () => {
-    handleContinue();
-};
-
-
+// Modal Component
+const Modal = ({ closeModal, handleContinue, inputValue, setInputValue }) => {
   return (
-      <div className="modal">
-          <div className="modal-content">
-              <p>Confirmation de notre ville, pour la récupération de votre véhicule :</p>
-              <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  placeholder="Paris 08"
-              />
-              <div className="modal-buttons">
-              <button className="modifier-button" onClick={handleModifierClick}>Modifier</button>
-              <button className="continuer-button" onClick={handleContinueClick}>Continuer</button>
-              </div>
-          </div>
+    <div className="modal">
+      <div className="modal-content">
+        {/* Confirmation text */}
+        <p>Confirmation of our city for vehicle pickup:</p>
+        {/* City input field */}
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Paris 08"
+        />
+        {/* Modifier and Continue buttons */}
+        <div className="modal-buttons">
+          <button className="modifier-button" onClick={closeModal}>Modify</button>
+          <button className="continuer-button" onClick={handleContinue}>Continue</button>
+        </div>
       </div>
+    </div>
   );
 };
 
-
+// Main Form Component
 const Form = () => {
-  const [model, setModel] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [showAchatForm, setShowAchatForm] = useState(false);
-  const [showLeasingForm, setShowLeasingForm] = useState(false);
-  const [showContact, setShowContact] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  // States to manage form state
+  const [model, setModel] = useState(''); // Selected vehicle model
+  const [showForm, setShowForm] = useState(false); // Display model selection
+  const [showAchatForm, setShowAchatForm] = useState(false); // Display purchase/leasing choice
+  const [showLeasingForm, setShowLeasingForm] = useState(false); // Display leasing duration choice
+  const [showContact, setShowContact] = useState(false); // Display contact form
+  const [showModal, setShowModal] = useState(false); // Display confirmation modal
+  const [showConfirmation, setShowConfirmation] = useState(false); // Display confirmation message
 
+  // States for form data
+  const [prenom, setPrenom] = useState(''); // First name
+  const [nom, setNom] = useState(''); // Last name
+  const [codePostal, setCodePostal] = useState(''); // Postal code
+  const [telephone, setTelephone] = useState(''); // Telephone
+  const [ville, setVille] = useState(''); // City (for vehicle pickup)
+  const [achatLeasing, setAchatLeasing] = useState(''); // Transaction type (purchase/leasing)
+  const [neufOccasion, setNeufOccasion] = useState(''); // Vehicle type (new/used)
+  const [dureeLeasing, setDureeLeasing] = useState(''); // Leasing duration
+
+  // Function to show confirmation modal
   const handleShowModal = () => {
     setShowModal(true);
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
   };
 
+  // Function to close confirmation modal
   const handleCloseModal = () => {
     setShowModal(false);
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
   };
 
+  // Function to show vehicle model selection form
   const handleShowForm = (modelName) => {
     setModel(modelName);
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
     setShowForm(true);
   };
 
+  // Function for purchase selection
   const achats = (modelName) => {
+    setAchatLeasing('achat');
     setModel(modelName);
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
     setShowAchatForm(true);
-    setShowLeasingForm(false); 
+    setShowLeasingForm(false);
     setShowForm(false);
   };
 
+  // Function for leasing selection
   const leasing = (modelName) => {
+    setAchatLeasing('leasing');
     setModel(modelName);
     setShowAchatForm(false);
-    setShowConfirmation(false); 
-    setShowLeasingForm(true); 
+    setShowConfirmation(false);
+    setShowLeasingForm(true);
     setShowForm(false);
   };
 
+  // Function for new/used vehicle selection
   const contact = (modelName) => {
+    setNeufOccasion(modelName);
     setModel(modelName);
     setShowAchatForm(false);
-    setShowConfirmation(false); 
-    setShowLeasingForm(false); 
+    setShowConfirmation(false);
+    setShowLeasingForm(false);
     setShowForm(false);
     setShowContact(true);
   };
 
+  // Function to continue after filling out contact form
   const handleContinue = async () => {
     setShowAchatForm(false);
     setShowLeasingForm(false);
@@ -95,16 +105,22 @@ const Form = () => {
     setShowContact(false);
     setShowConfirmation(true);
     try {
+      // Fetch city name based on entered postal code
       const ville = await fetchCityName(codePostal);
 
+      // Prepare data to send
       const leadData = {
         type_modele: model,
         nom: nom,
         prenom: prenom,
         ville: ville,
-        telephone: telephone
+        telephone: formatPhoneNumber(telephone),
+        achat_leasing: achatLeasing,
+        neuf_occasion: neufOccasion,
+        duree_leasing: formatDuration(dureeLeasing),
       };
 
+      // Send lead data
       await sendLeadData(leadData);
 
       setShowModal(false);
@@ -113,25 +129,39 @@ const Form = () => {
       console.error('Error:', error);
     }
   };
-  
+
+  // Function to format leasing duration
+  function formatDuration(duration) {
+    return duration.replace(' mois', 'M');
+  }
+
+  // Function to format phone number
+  const formatPhoneNumber = (phone) => {
+    let formattedPhone = phone.replace(/^0/, '+33 ');
+    formattedPhone = formattedPhone.replace(/ /g, '');
+    return formattedPhone.replace(/(\+33)(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5 $6');
+  };
+
+  // Function to fetch city name based on postal code
   const fetchCityName = async (codePostal) => {
     try {
       const response = await fetch(`https://geo.api.gouv.fr/communes?codePostal=${codePostal}`);
       if (!response.ok) {
-        throw new Error('La requête n\'a pu aboutir');
+        throw new Error('Request failed');
       }
       const data = await response.json();
       if (data.length > 0) {
         return data[0].nom;
       } else {
-        throw new Error('Aucune ville n\'a été trouvée pour ce code postal');
+        throw new Error('Invalid postal code');
       }
     } catch (error) {
-      console.error('Erreur lors de la récupération du nom de la ville :', error);
+      console.error('Error fetching city name:', error);
       throw error;
     }
   };
 
+  // Function to send lead data
   const sendLeadData = async (leadData) => {
     try {
       const response = await fetch('https://hooks.zapier.com/hooks/catch/6844401/3sjq5ou/?em=test@hipto.com', {
@@ -145,92 +175,99 @@ const Form = () => {
         throw new Error('Error');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error sending lead data:', error);
       throw error;
     }
   };
 
   return (
     <div>
-      {!showForm && !showAchatForm && !showLeasingForm && !showContact && !showConfirmation &&(
+      {/* Step 1: Vehicle model selection */}
+      {!showForm && !showAchatForm && !showLeasingForm && !showContact && !showConfirmation && (
         <div className="form-group">
-          <label>Quel est le type de modèle que vous souhaitez tester ?</label>
-          <button type="button" onClick={() => handleShowForm('compact')}>COMPACTE</button>
+          <label>What type of model are you interested in testing?</label>
+          <button type="button" onClick={() => handleShowForm('compact')}>COMPACT</button>
           <button type="button" onClick={() => handleShowForm('suv')}>SUV</button>
-          <button type="button" onClick={() => handleShowForm('electric-hybrid')}>ÉLECTRIQUE & HYBRIDE</button>
-          <button type="button" onClick={() => handleShowForm('sport')}>SPORTIVE</button>
+          <button type="button" onClick={() => handleShowForm('electric-hybrid')}>ELECTRIC & HYBRID</button>
+          <button type="button" onClick={() => handleShowForm('sport')}>SPORTS</button>
         </div>
       )}
 
+      {/* Step 2: Purchase or leasing selection */}
       {showForm && (
         <div className="form-group">
-          <label>Vous êtes intéressé par :</label>
-          <button type="button" onClick={() => achats('achat')}>UN ACHAT</button>
-          <button type="button" onClick={() => leasing('leasing')}>UN LEASING</button>
+          <label>Are you interested in:</label>
+          <button type="button" onClick={() => achats('achat')}>PURCHASE</button>
+          <button type="button" onClick={() => leasing('leasing')}>LEASING</button>
         </div>
       )}
 
+      {/* Step 3: New or used vehicle selection */}
       {showAchatForm && (
         <div className="form-group">
-          <label>Pour quel type de véhicule ?</label>
-          <button type="button" onClick={() => contact('neuf')}>NEUF</button>
-          <button type="button" onClick={() => contact('occasion')}>OCCASION</button>
+          <label>For which type of vehicle?</label>
+          <button type="button" onClick={() => contact('neuf')}>NEW</button>
+          <button type="button" onClick={() => contact('occasion')}>USED</button>
         </div>
       )}
 
+      {/* Step 4: Leasing duration selection */}
       {showLeasingForm && (
         <div className="form-group">
-          <label>Pour quelle durée ?</label>
-          <button type="button" onClick={() => contact('6')}>6 MOIS</button>
-          <button type="button" onClick={() => contact('12')}>12 MOIS</button>
-          <button type="button" onClick={() => contact('18')}>18 MOIS</button>
-          <button type="button" onClick={() => contact('24')}>24 MOIS</button>
+          <label>For what duration?</label>
+          <button type="button" onClick={() => { contact('6 mois'); setDureeLeasing('6 mois'); }}>6 MONTHS</button>
+          <button type="button" onClick={() => { contact('12 mois'); setDureeLeasing('12 mois'); }}>12 MONTHS</button>
+          <button type="button" onClick={() => { contact('18 mois'); setDureeLeasing('18 mois'); }}>18 MONTHS</button>
+          <button type="button" onClick={() => { contact('24 mois'); setDureeLeasing('24 mois'); }}>24 MONTHS</button>
         </div>
       )}
 
+      {/* Step 5: Contact form */}
       {showContact && (
         <div className="form-group">
           <div className="name-fields">
             <label className="Prenom">
-              PRÉNOM
-              <input name="prenomInput" defaultValue="Ecrire" className="styled-inputPrenom" />
+              FIRST NAME
+              <input name="prenomInput" defaultValue="Type" className="styled-inputPrenom" onChange={(e) => setPrenom(e.target.value)} />
             </label>
             <label className="Nom">
-              NOM
-              <input name="nomInput" defaultValue="Ecrire" className="styled-inputNom" />
+              LAST NAME
+              <input name="nomInput" defaultValue="Type" className="styled-inputNom" onChange={(e) => setNom(e.target.value)} />
             </label>
             <label className="Code">
-              CODE POSTAL
-              <input name="codeInput" defaultValue="1234" className="styled-inputcode" />
+              POSTAL CODE
+              <input name="codeInput" defaultValue="1234" className="styled-inputcode" onChange={(e) => setCodePostal(e.target.value)} />
             </label>
             <label className="tel">
-              TÉLÉPHONE
-              <input name="telInput" defaultValue="0X XX XX XX XX" className="styled-inputtel" />
+              PHONE NUMBER
+              <input name="telInput" defaultValue="0X XX XX XX XX" className="styled-inputtel" onChange={(e) => setTelephone(e.target.value)} />
             </label>
           </div>
-          <button className="continue" type="button" onClick={handleShowModal}>CONTINUER</button>
+          <button className="continue" type="button" onClick={handleShowModal}>CONTINUE</button>
         </div>
       )}
 
+      {/* Confirmation Modal */}
       {showModal && (
-        <Modal 
-          closeModal={handleCloseModal} 
+        <Modal
+          closeModal={handleCloseModal}
           handleContinue={handleContinue}
-          handleModifierClick={handleCloseModal} 
-          handleContinueClick={handleContinue} 
+          inputValue={ville}
+          setInputValue={setVille}
         />
       )}
 
+      {/* Final Step: Form submission confirmation */}
       {showConfirmation && (
         <div className="confirmation-group">
           <div className="confirmation-text">
-            <label>Votre réservation a bien été prise en compte.</label>
-           </div>
+            <label>Your reservation has been successfully recorded.</label>
+          </div>
           <div className="confirmation-text2">
-            <label>Vous serez contacté dans <span className="underline">un délai de 48h.</span></label>
+            <label>You will be contacted within <span className="underline">48 hours.</span></label>
           </div>
           <div className="confirmation-thanks">
-            <label>L'équipe Alfa Romeo vous remercie.</label>
+            <label>The Alfa Romeo team thanks you.</label>
           </div>
         </div>
       )}
