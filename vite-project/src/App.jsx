@@ -30,11 +30,11 @@ function App() {
       <footer> 
         <div className="footer-links">
           {/* Footer links */}
-          <a href="#">PRIVACY POLICY</a>
-          <a href="#">TERMS OF USE</a>
-          <a href="#">REGULATION - AGEC LAW</a>
+          <a href="#">POLITIQUE DE CONFIDENTIALITÉ</a>
+          <a href="#">CONDITIONS GÉNÉRALES D'UTILISATION</a>
+          <a href="#">RÉGLEMENTATION - LOI AGEC</a>
           <a href="#">COOKIE</a>
-          <a href="#">COPYRIGHT</a>
+          <a href="#">DROITS D'AUTEUR</a>
         </div>
       </footer>
     </div>

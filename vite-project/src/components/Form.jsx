@@ -6,7 +6,7 @@ const Modal = ({ closeModal, handleContinue, inputValue, setInputValue }) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        <p>Confirmation of our city for vehicle pickup:</p>
+        <p class="conf">Confirmation de votre ville, pour la récupération de votre véhicule :</p>
         {/* City input field */}
         <input
           type="text"
@@ -16,8 +16,8 @@ const Modal = ({ closeModal, handleContinue, inputValue, setInputValue }) => {
         />
         {/* Modifier and Continue buttons */}
         <div className="modal-buttons">
-          <button className="modifier-button" onClick={closeModal}>Modify</button>
-          <button className="continuer-button" onClick={handleContinue}>Continue</button>
+          <button className="modifier-button" onClick={closeModal}>MODIFIER</button>
+          <button className="continuer-button" onClick={handleContinue}>CONTINUER</button>
         </div>
       </div>
     </div>
@@ -184,65 +184,66 @@ const Form = () => {
       {/* Step 1: Vehicle model selection */}
       {!showForm && !showAchatForm && !showLeasingForm && !showContact && !showConfirmation && (
         <div className="form-group">
-          <label>What type of model are you interested in testing?</label>
-          <button type="button" onClick={() => handleShowForm('compact')}>COMPACT</button>
+          <label class="bold-text">Quel est le type de modèle que vous souhaitez tester ?</label>
+          <button type="button" onClick={() => handleShowForm('compact')}>COMPACTE</button>
           <button type="button" onClick={() => handleShowForm('suv')}>SUV</button>
-          <button type="button" onClick={() => handleShowForm('electric-hybrid')}>ELECTRIC & HYBRID</button>
-          <button type="button" onClick={() => handleShowForm('sport')}>SPORTS</button>
+          <button type="button" onClick={() => handleShowForm('electric-hybrid')}>ELECTRIQUE & HYBRIDE</button>
+          <button type="button" onClick={() => handleShowForm('sport')}>SPORTIVE</button>
         </div>
       )}
 
       {/* Step 2: Purchase or leasing selection */}
       {showForm && (
         <div className="form-group">
-          <label>Are you interested in:</label>
-          <button type="button" onClick={() => achats('achat')}>PURCHASE</button>
-          <button type="button" onClick={() => leasing('leasing')}>LEASING</button>
+          <label class="bold-text">Vous êtes intéressé par ?</label>
+          <button type="button" onClick={() => achats('achat')}>UN ACHAT</button>
+          <button type="button" onClick={() => leasing('leasing')}>UN LEASING</button>
         </div>
       )}
 
       {/* Step 3: New or used vehicle selection */}
       {showAchatForm && (
         <div className="form-group">
-          <label>For which type of vehicle?</label>
-          <button type="button" onClick={() => contact('neuf')}>NEW</button>
-          <button type="button" onClick={() => contact('occasion')}>USED</button>
+          <label class="bold-text">Pour quel type de véhicule ?</label>
+          <button type="button" onClick={() => contact('neuf')}>NEUF</button>
+          <button type="button" onClick={() => contact('occasion')}>OCCASION</button>
         </div>
       )}
 
       {/* Step 4: Leasing duration selection */}
       {showLeasingForm && (
         <div className="form-group">
-          <label>For what duration?</label>
-          <button type="button" onClick={() => { contact('6 mois'); setDureeLeasing('6 mois'); }}>6 MONTHS</button>
-          <button type="button" onClick={() => { contact('12 mois'); setDureeLeasing('12 mois'); }}>12 MONTHS</button>
-          <button type="button" onClick={() => { contact('18 mois'); setDureeLeasing('18 mois'); }}>18 MONTHS</button>
-          <button type="button" onClick={() => { contact('24 mois'); setDureeLeasing('24 mois'); }}>24 MONTHS</button>
+          <label class="bold-text">Pour quelle durée ?</label>
+          <button type="button" onClick={() => { contact('6 mois'); setDureeLeasing('6 mois'); }}>6 MOIS</button>
+          <button type="button" onClick={() => { contact('12 mois'); setDureeLeasing('12 mois'); }}>12 MOIS</button>
+          <button type="button" onClick={() => { contact('18 mois'); setDureeLeasing('18 mois'); }}>18 MOIS</button>
+          <button type="button" onClick={() => { contact('24 mois'); setDureeLeasing('24 mois'); }}>24 MOIS</button>
         </div>
       )}
 
       {/* Step 5: Contact form */}
       {showContact && (
         <div className="form-group">
+          <label class="coor2">Vos coordonnées :</label>
           <div className="name-fields">
             <label className="Prenom">
-              FIRST NAME
-              <input name="prenomInput" defaultValue="Type" className="styled-inputPrenom" onChange={(e) => setPrenom(e.target.value)} />
+              PRENOM
+              <input name="prenomInput" defaultValue="Ecrire" className="styled-inputPrenom" onChange={(e) => setPrenom(e.target.value)} />
             </label>
             <label className="Nom">
-              LAST NAME
-              <input name="nomInput" defaultValue="Type" className="styled-inputNom" onChange={(e) => setNom(e.target.value)} />
+              NOM
+              <input name="nomInput" defaultValue="Ecrire" className="styled-inputNom" onChange={(e) => setNom(e.target.value)} />
             </label>
             <label className="Code">
-              POSTAL CODE
-              <input name="codeInput" defaultValue="1234" className="styled-inputcode" onChange={(e) => setCodePostal(e.target.value)} />
+              CODE POSTAL
+              <input name="codeInput" defaultValue="75008" className="styled-inputcode" onChange={(e) => setCodePostal(e.target.value)} />
             </label>
             <label className="tel">
-              PHONE NUMBER
-              <input name="telInput" defaultValue="0X XX XX XX XX" className="styled-inputtel" onChange={(e) => setTelephone(e.target.value)} />
+              TELEPHONE
+              <input name="telInput" defaultValue="06 XX XX XX XX" className="styled-inputtel" onChange={(e) => setTelephone(e.target.value)} />
             </label>
           </div>
-          <button className="continue" type="button" onClick={handleShowModal}>CONTINUE</button>
+          <button className="continue" type="button" onClick={handleShowModal}>CONTINUER</button>
         </div>
       )}
 
@@ -260,13 +261,13 @@ const Form = () => {
       {showConfirmation && (
         <div className="confirmation-group">
           <div className="confirmation-text">
-            <label>Your reservation has been successfully recorded.</label>
+            <label>Votre réservation a bien été prise en compte.</label>
           </div>
           <div className="confirmation-text2">
-            <label>You will be contacted within <span className="underline">48 hours.</span></label>
+            <label>Vous serez contacté dans <span className="underline">un délai de 48H.</span></label>
           </div>
           <div className="confirmation-thanks">
-            <label>The Alfa Romeo team thanks you.</label>
+            <label>L'équipe Alfa Romeo, vous remercie.</label>
           </div>
         </div>
       )}
