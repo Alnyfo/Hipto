@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './Form.css';
 
-// Modal Component
+// Modal Component (Pop-up)
 const Modal = ({ closeModal, handleContinue, inputValue, setInputValue }) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        {/* Confirmation text */}
         <p>Confirmation of our city for vehicle pickup:</p>
         {/* City input field */}
         <input
